@@ -8,8 +8,8 @@ VERSION="1.4.3"
 
 # Variables
 URL="https://github.com/IceWhaleTech/ZimaOS/releases/download/$VERSION"
-IMAGE="zimaos_zimacube-$VERSION.img.xz"
-EXTRACTED_IMAGE="zimaos_zimacube-$VERSION.img"
+IMAGE="zimaos_zimacube-${VERSION}_installer.img"
+#EXTRACTED_IMAGE="zimaos_zimacube-$VERSION.img"
 IMAGE_PATH="/var/lib/vz/images/$IMAGE"
 EXTRACTED_PATH="/var/lib/vz/images/$EXTRACTED_IMAGE"
 
@@ -88,17 +88,17 @@ if [ $? -ne 0 ]; then
 fi
 
 # Extract the image
-echo "Extracting the image..."
-xz -df "$IMAGE_PATH"
-if [ $? -ne 0 ]; then
-  echo "Error: Failed to extract the image."
-  rm -f "$IMAGE_PATH" # Cleanup if extraction fails
-  exit 1
-fi
+#echo "Extracting the image..."
+#xz -df "$IMAGE_PATH"
+#if [ $? -ne 0 ]; then
+#  echo "Error: Failed to extract the image."
+#  rm -f "$IMAGE_PATH" # Cleanup if extraction fails
+#  exit 1
+#fi
 
 # Verify extracted image exists
-if [ ! -f "$EXTRACTED_PATH" ]; then
-  echo "Error: Extracted image file not found at $EXTRACTED_PATH"
+if [ ! -f "$IMAGE" ]; then
+  echo "Error: Extracted image file not found at $IMAGE"
   exit 1
 fi
 
@@ -125,7 +125,7 @@ fi
 
 # Import the disk
 echo "Importing the disk..."
-qm importdisk $VMID "$EXTRACTED_PATH" $VOLUME
+qm importdisk $VMID "$IMAGE" $VOLUME
 if [ $? -ne 0 ]; then
     echo "Error: Failed to import the disk."
     exit 1
